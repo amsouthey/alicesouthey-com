@@ -19,6 +19,7 @@ exports.createPages = ({ graphql, actions }) => {
               }
               frontmatter {
                 title
+                date(formatString: "YYYY/MM/DD")
               }
             }
           }
@@ -36,9 +37,10 @@ exports.createPages = ({ graphql, actions }) => {
     posts.forEach((post, index) => {
       const previous = index === posts.length - 1 ? null : posts[index + 1].node
       const next = index === 0 ? null : posts[index - 1].node
+      const newPath = `blog/${post.node.frontmatter.date}${post.node.fields.slug}`
 
       createPage({
-        path: post.node.fields.slug,
+        path: newPath,
         component: blogPost,
         context: {
           slug: post.node.fields.slug,
